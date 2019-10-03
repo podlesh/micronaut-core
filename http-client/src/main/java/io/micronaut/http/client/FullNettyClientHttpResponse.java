@@ -55,6 +55,7 @@ public class FullNettyClientHttpResponse<B> implements HttpResponse<B>, Completa
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultHttpClient.class);
 
+    private final int statusCode;
     private final HttpStatus status;
     private final NettyHttpHeaders headers;
     private final MutableConvertibleValues<Object> attributes;
@@ -82,6 +83,7 @@ public class FullNettyClientHttpResponse<B> implements HttpResponse<B>, Completa
             Argument<B> bodyType, boolean errorStatus) {
 
         this.status = httpStatus;
+        this.statusCode = fullHttpResponse.status().code();
         this.headers = new NettyHttpHeaders(fullHttpResponse.headers(), ConversionService.SHARED);
         this.attributes = new MutableConvertibleValuesMap<>();
         this.nettyHttpResponse = fullHttpResponse;
@@ -103,6 +105,14 @@ public class FullNettyClientHttpResponse<B> implements HttpResponse<B>, Completa
         } else {
             this.body = null;
         }
+    }
+
+    /**
+     * @return The response status code; negative if the status code is not available
+     */
+    @Override
+    public int code() {
+        return statusCode;
     }
 
     @Override
