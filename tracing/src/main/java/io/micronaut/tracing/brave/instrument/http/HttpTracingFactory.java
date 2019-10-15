@@ -78,7 +78,7 @@ public class HttpTracingFactory {
 
             @Override
             public Integer statusCode(HttpResponse<?> response) {
-                return response.getStatus().getCode();
+                return response.code();
             }
 
             @Override
@@ -127,7 +127,7 @@ public class HttpTracingFactory {
 
             @Override
             public Integer statusCode(HttpResponse<?> response) {
-                return response.getStatus().getCode();
+                return response.code();
             }
 
             @Override

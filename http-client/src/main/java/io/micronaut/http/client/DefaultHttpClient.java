@@ -1708,7 +1708,7 @@ public class DefaultHttpClient implements RxWebSocketClient, RxHttpClient, RxStr
                     } else {
                         boolean errorStatus = statusCode >= 400;
                         if (errorStatus) {
-                            emitter.onError(new HttpClientResponseException(response.getStatus().getReason(), response));
+                            emitter.onError(new HttpClientResponseException(response.reason(), response));
                         } else {
                             emitter.onNext(response);
                             emitter.onComplete();

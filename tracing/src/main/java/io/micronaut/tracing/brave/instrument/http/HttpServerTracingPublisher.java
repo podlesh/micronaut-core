@@ -112,9 +112,9 @@ public class HttpServerTracingPublisher implements Publisher<MutableHttpResponse
 
                         configureAttributes(response);
                         configureSpan(span);
-                        HttpStatus status = response.getStatus();
-                        if (status.getCode() > HTTP_SUCCESS_CODE_UPPER_LIMIT) {
-                            span.tag(AbstractOpenTracingFilter.TAG_HTTP_STATUS_CODE, String.valueOf(status.getCode()));
+                        final int code = response.code();
+                        if (code > HTTP_SUCCESS_CODE_UPPER_LIMIT) {
+                            span.tag(AbstractOpenTracingFilter.TAG_HTTP_STATUS_CODE, String.valueOf(code));
                         }
                         serverHandler.handleSend(response, null, span);
                         actual.onNext(response);

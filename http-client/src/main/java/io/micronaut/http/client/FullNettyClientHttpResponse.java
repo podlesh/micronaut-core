@@ -201,7 +201,7 @@ public class FullNettyClientHttpResponse<B> implements HttpResponse<B>, Completa
                     converted = convertByteBuf(content, finalArgument);
                 }
             } catch (RuntimeException e) {
-                if (status.getCode() < 400) {
+                if (statusCode < 400) {
                     throw e;
                 } else {
                     if (LOG.isDebugEnabled()) {

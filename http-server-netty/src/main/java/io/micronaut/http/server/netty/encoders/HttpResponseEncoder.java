@@ -111,9 +111,10 @@ public class HttpResponseEncoder extends MessageToMessageEncoder<MutableHttpResp
             }
             Object b = response.getBody().orElse(null);
             ByteBuf body = b instanceof  ByteBuf ? (ByteBuf) b : Unpooled.buffer(0);
+            final String reason = response.reason();
             FullHttpResponse nettyResponse = new DefaultFullHttpResponse(
                     HttpVersion.HTTP_1_1,
-                    HttpResponseStatus.valueOf(response.status().getCode(), response.status().getReason()),
+                    HttpResponseStatus.valueOf(response.code(), reason == null ? "Unsupported code" : reason),
                     body,
                     nettyHeaders,
                     EmptyHttpHeaders.INSTANCE

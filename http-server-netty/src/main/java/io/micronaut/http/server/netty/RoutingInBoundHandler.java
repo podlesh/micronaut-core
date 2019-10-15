@@ -996,7 +996,7 @@ class RoutingInBoundHandler extends SimpleChannelInboundHandler<io.micronaut.htt
                 }
                 HttpStatus status = finalResponse.getStatus();
 
-                if (status.getCode() >= HttpStatus.BAD_REQUEST.getCode()) {
+                if (status != null && status.getCode() >= HttpStatus.BAD_REQUEST.getCode()) {
                     Class declaringType = ((MethodBasedRouteMatch) routeMatch).getDeclaringType();
                     // handle re-mapping of errors
                     Optional<RouteMatch<Object>> statusRoute = Optional.empty();
@@ -1264,8 +1264,7 @@ class RoutingInBoundHandler extends SimpleChannelInboundHandler<io.micronaut.htt
         // default Connection header if not set explicitly
         if (!nettyHeaders.contains(HttpHeaderNames.CONNECTION)) {
             boolean expectKeepAlive = nettyResponse.protocolVersion().isKeepAliveDefault() || httpRequest.getHeaders().isKeepAlive();
-            HttpStatus status = nettyHttpResponse.status();
-            if (!expectKeepAlive || status.getCode() > 299) {
+            if (!expectKeepAlive || nettyHttpResponse.code() > 299) {
                 nettyHeaders.add(HttpHeaderNames.CONNECTION, HttpHeaderValues.CLOSE);
             } else {
                 nettyHeaders.add(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
